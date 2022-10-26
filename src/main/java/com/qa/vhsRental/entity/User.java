@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,18 +26,18 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user_details")
+
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private int id;
 	
-	
+
 	@NotNull
 	@Size(min = 6, max = 20, message = "pass must be between 6 and 20 characters long !!")
 	@Column(name = "user_pass")
-	private int password;
+	private String password;
 
 	@NotNull
 	@Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long !!")
@@ -50,10 +50,14 @@ public class User {
 	@Pattern(regexp = "^[A-Za-z]*", message = "Invalid surname - must only contain alphabetical characters !!")
 	@Column(name = "user_surname")
 	private String surname;
-
+	
+	@NotNull
+	@Pattern(regexp = "^[A-Za-z0-9]*", message = "Invalid adr - must only contain alphanumerical characters !!")
+	@Column(name = "user_address")
+	private String address;
+	
 	
 	@Column(name = "currently_rented")
-	@Autowired
-	private VHS rentedVHS;
+	private String rentedVHS;
 
 }
