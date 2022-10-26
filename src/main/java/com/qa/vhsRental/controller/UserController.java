@@ -133,19 +133,24 @@ public class UserController {
 		return responseEntity;
 	}
 
-//	@GetMapping("/users/{vhs}")
-//	public ResponseEntity<?> getUserByVhs(@PathVariable("vhs") String vhs){
-//
-//		try {
-//			List<User> userFound = this.userService.getUserbyVhs(vhs);
-//			responseEntity = new ResponseEntity<>(userFound, HttpStatus.OK);	
-//		}catch(Exception e) {
-//			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
-//			e.printStackTrace();
-//		}
-//
-//		return responseEntity;
-//	}
+
+	
+	@DeleteMapping("/users/id/{id}/vhs/{vhs}")
+	public ResponseEntity<?> removeUserVHS(@PathVariable("id") int id,@PathVariable("vhs") String vhs) throws UserNotFoundException{
+
+		try {
+			User userFound = this.userService.removeVHSfromUser(id,vhs);
+			responseEntity = new ResponseEntity<>(userFound, HttpStatus.OK);
+		}catch(UserNotFoundException e) {
+			throw e;
+		}catch(Exception e) {
+			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+		return responseEntity;
+	}
+
+	
 
 
 

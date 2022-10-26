@@ -70,11 +70,13 @@ public class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public User removeVHSfromUser(User user, String vhs) throws UserNotFoundException, VHSNotFoundExeption {
-		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+	public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundExeption {
+		User user ;
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
 		if (!userFoundByIdOptional.isPresent()) {
 			throw new UserNotFoundException();
 		}else {
+			user = userFoundByIdOptional.get();
 			if (user.getRentedVHS().equals(vhs)) {
 				user.setRentedVHS(null);				
 			}else {

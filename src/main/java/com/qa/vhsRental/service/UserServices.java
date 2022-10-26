@@ -15,9 +15,9 @@ public List<User> getAllUsers();
 public User addUser(User user) throws UserAlreadyExistsException;
 public User getUserByID(int id) throws UserNotFoundException;
 public User updateUser(User user) throws UserNotFoundException;
-public User removeVHSfromUser(User user, String vhs) throws UserNotFoundException, VHSNotFoundExeption;
 public User addVHStoUser(int id, String vhs) throws UserNotFoundException;
 public Boolean deleteUser(int id) throws UserNotFoundException;
+public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundExeption;
 
 
 
