@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.AllArgsConstructor;
@@ -52,7 +51,7 @@ public class User {
 	@Column(name = "user_surname")
 	private String surname;
 
-	@NotNull
+	
 	@Column(name = "currently_rented")
 	@Autowired
 	private VHS rentedVHS;

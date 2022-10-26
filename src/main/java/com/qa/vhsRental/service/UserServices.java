@@ -4,17 +4,21 @@ import java.util.List;
 
 import com.qa.vhsRental.entity.User;
 import com.qa.vhsRental.entity.VHS;
+import com.qa.vhsRental.exception.UserAlreadyExistsException;
+import com.qa.vhsRental.exception.UserNotFoundException;
+import com.qa.vhsRental.exception.VHSNotFoundExeption;
 
 public interface UserServices {
 	
 public List<User> getAllUsers();
-public User addUser(User user);
-public User getUserByID(int id);
-public User updateUser(User user);
-public User addVHStoUser(VHS vhs);
-public User removeVHSfromUser(VHS vhs);
-public Boolean deleteUser(User user);
-public User getUserByRentedVHS(VHS vhs);
+public User addUser(User user) throws UserAlreadyExistsException;
+public User getUserByID(int id) throws UserNotFoundException;
+public User updateUser(User user) throws UserNotFoundException;
+public User addVHStoUser(User user, VHS vhs) throws UserNotFoundException;
+public User removeVHSfromUser(User user,VHS vhs) throws UserNotFoundException, VHSNotFoundExeption;
+public Boolean deleteUser(User user) throws UserNotFoundException;
+public List<User> getUserByRentedVHS(VHS vhs);
+
 
 
 }

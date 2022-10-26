@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qa.vhsRental.entity.User;
 import com.qa.vhsRental.entity.VHS;
+import com.qa.vhsRental.exception.UserAlreadyExistsException;
+import com.qa.vhsRental.exception.UserNotFoundException;
+import com.qa.vhsRental.exception.VHSNotFoundExeption;
 import com.qa.vhsRental.repository.UserRepository;
 
 public class UserServicesImpl implements UserServices {
@@ -23,163 +26,86 @@ public class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public User addUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User getUserByID(int id) {
-		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
-		return null;
+	public User addUser(User user) throws UserAlreadyExistsException {
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+		if (userFoundByIdOptional.isPresent())
+			throw new UserAlreadyExistsException();
+		else
+			return this.userRepository.save(user);
 	}
 	
-	//@Override
-	//public Product getProductByID(int id) throws ProductNotFoundException{
-	//
-//		Optional<Product> productFoundByIdOptional = this.productRepository.findById(id);
-//		if (!productFoundByIdOptional.isPresent())
-//			throw new ProductNotFoundException();
-//		return productFoundByIdOptional.get();
-	//}
 
 	@Override
-	public User updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserByID(int id) throws UserNotFoundException {
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
+		if (!userFoundByIdOptional.isPresent())
+			throw new UserNotFoundException();
+		return userFoundByIdOptional.get();
+	}
+	
+
+	@Override
+	public User updateUser(User user) throws UserNotFoundException {
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+		if (!userFoundByIdOptional.isPresent())
+			throw new UserNotFoundException();
+		else 
+			return this.userRepository.save(user);
+		
+	}
+	
+
+	@Override
+	public User addVHStoUser(User user,VHS vhs) throws UserNotFoundException {
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+		if (!userFoundByIdOptional.isPresent()) {
+			throw new UserNotFoundException();
+		}else {
+			user.setRentedVHS(vhs);
+		}
+			
+		return this.userRepository.save(user);
 	}
 
 	@Override
-	public User addVHStoUser(VHS vhs) {
-		// TODO Auto-generated method stub
-		return null;
+	public User removeVHSfromUser(User user,VHS vhs) throws UserNotFoundException, VHSNotFoundExeption {
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+		if (!userFoundByIdOptional.isPresent()) {
+			throw new UserNotFoundException();
+		}else {
+			if (user.getRentedVHS().getName() == vhs.getName()) {
+				user.setRentedVHS(null);				
+			}else {
+				throw new VHSNotFoundExeption();
+			}
+			
+		}
+			
+		return this.userRepository.save(user);
 	}
 
 	@Override
-	public User removeVHSfromUser(VHS vhs) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean deleteUser(User user) throws UserNotFoundException {
+		boolean status = false;
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
+		if (!userFoundByIdOptional.isPresent()) {
+			throw new UserNotFoundException();
+		}else {
+			this.userRepository.delete(userFoundByIdOptional.get());
+			status = true;
+		}
+	
+		return status;
 	}
+	
 
 	@Override
-	public Boolean deleteUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User getUserByRentedVHS(VHS vhs) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getUserByRentedVHS(VHS vhs) {
+		return this.userRepository.findByVHS(vhs.getName());
 	}
 
 }
 
 
 
-//@Override
-//public Product getProductByID(int id) throws ProductNotFoundException{
-//
-//	Optional<Product> productFoundByIdOptional = this.productRepository.findById(id);
-//	if (!productFoundByIdOptional.isPresent())
-//		throw new ProductNotFoundException();
-//	return productFoundByIdOptional.get();
-//}
-//
-//@Override
-//public Product addProduct(Product product) throws ProductAlreadyExistsException{
-//	
-//	Optional<Product> productFoundByIdOptional = this.productRepository.findById(product.getId());	
-//	if(productFoundByIdOptional.isPresent()) {
-//		throw new ProductAlreadyExistsException();
-//	}
-//	else {
-//		return this.productRepository.save(product);
-//	}
-//	
-//}
-//
-//@Override
-//public Product updateProduct(Product product) throws ProductNotFoundException {
-//	
-//	Optional<Product> productFoundByIdOptional = this.productRepository.findById(product.getId());	
-//	if(!productFoundByIdOptional.isPresent()) {
-//		throw new ProductNotFoundException();
-//	}
-//	else {
-//		return this.productRepository.save(product);
-//	}
-//}
-//
-//@Override
-//public Boolean deleteProduct(int id) throws ProductNotFoundException {
-//	
-//	boolean status = false;
-//	
-//	Optional<Product> productFoundByIdOptional = this.productRepository.findById(id);
-//	if(!productFoundByIdOptional.isPresent()) {
-//		throw new ProductNotFoundException();
-//	}
-//	else {
-//		this.productRepository.delete(productFoundByIdOptional.get());
-//		status = true;
-//	}
-//	
-//	return status;
-//}
-//
-//@Override
-//public List<Product> getProductsByPrice(double price) {
-//	
-//	return this.productRepository.findByPrice(price);
-//}
-//
-//@Override
-//public double getTotalPriceOfAllProducts() {
-//	
-//	return this.productRepository.totalPriceOfAllProducts();
-//}
-//
-//@Override
-//public List<Product> getProductByNameAndPrice(String name, double price) {
-//
-//	return this.productRepository.findProductByNameAndPrice(name, price);
-//}
-//
-//@Override
-//public List<Product> getProductByName(String name) {
-//	
-//	return this.productRepository.findByName(name);
-//}
-//
-//@Override
-//public Product updateProductDetails(int id, String name, double price) throws ProductNotFoundException{
-//	Product updatedProduct = null;
-//	
-//	Optional<Product> findByIdOptional = this.productRepository.findById(id);
-//	if(!findByIdOptional.isPresent()) {
-//		throw new ProductNotFoundException();
-//	}
-//	else {
-//		int rows = this.productRepository.updateProductDetails(id, name, price);
-//		if (rows > 0) {
-//			updatedProduct = this.productRepository.findById(id).get();
-//		}
-//	}
-//	return updatedProduct;
-//}
-//
-//@Override
-//public List<ProductDto> getProductDetails() {
-//
-//	
-//	return this.productRepository.findAll().stream().map(this::mapToProductDto).collect(Collectors.toList());
-//	
-//}
-//
-//private ProductDto mapToProductDto(Product product) {
-//	return this.modelMapper.map(product, ProductDto.class);
-//}
-//
-//
 
