@@ -13,7 +13,6 @@ public class VhsRentalSystemApplication {
 	    public ModelMapper mapper() {
 	        return new ModelMapper();
 	    }
-	    
 	public static void main(String[] args) {
 		SpringApplication.run(VhsRentalSystemApplication.class, args);
 	}

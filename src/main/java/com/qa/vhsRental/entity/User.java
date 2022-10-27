@@ -2,17 +2,19 @@ package com.qa.vhsRental.entity;
 
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 
-@Entity
+@Entity	
 @Table(name = "user_details")
 
 public class User {
@@ -58,7 +60,12 @@ public class User {
 	private String address;
 	
 	
-	@Column(name = "currently_rented")
-	private String rentedVHS;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "User_VHS", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "vhs_id", referencedColumnName = "vhs_id")
+    })
+	private List<VHS> rentedVHS;
 
 }

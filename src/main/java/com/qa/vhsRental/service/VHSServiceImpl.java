@@ -92,6 +92,18 @@ public class VHSServiceImpl implements VHSService {
 		List<VHS> listVHSByAuthor = this.vhsRepository.findByAuthor(author);
 		return listVHSByAuthor;
 	}
+
+	@Override
+	public VHS getVHSByName(String name) {
+		
+		return this.vhsRepository.findByName(name);
+	}
+
+	@Override
+	public VHS getVHSByAuthorAndName(String name, String author) {
+	
+		return this.vhsRepository.findByNameandAuthor(name,author);
+	}
 	
 	
 	
