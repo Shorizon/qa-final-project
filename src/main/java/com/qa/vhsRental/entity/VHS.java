@@ -27,7 +27,6 @@ import lombok.NoArgsConstructor;
 public class VHS {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "vhs_id")
 	private int id;
 	

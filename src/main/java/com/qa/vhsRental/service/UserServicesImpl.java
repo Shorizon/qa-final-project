@@ -9,20 +9,21 @@ import org.springframework.stereotype.Service;
 import com.qa.vhsRental.entity.User;
 import com.qa.vhsRental.exception.UserAlreadyExistsException;
 import com.qa.vhsRental.exception.UserNotFoundException;
-import com.qa.vhsRental.exception.VHSNotFoundExeption;
+import com.qa.vhsRental.exception.VHSNotFoundException;
+import com.qa.vhsRental.exception.passwordDoesNotMatchException;
 import com.qa.vhsRental.repository.UserRepository;
 
 @Service
 public class UserServicesImpl implements UserServices {
-	
-	
+
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 
 	@Override
 	public List<User> getAllUsers() {
-		
+
 		return userRepository.findAll();
 	}
 
@@ -34,7 +35,7 @@ public class UserServicesImpl implements UserServices {
 		else
 			return this.userRepository.save(user);
 	}
-	
+
 
 	@Override
 	public User getUserByID(int id) throws UserNotFoundException {
@@ -43,7 +44,7 @@ public class UserServicesImpl implements UserServices {
 			throw new UserNotFoundException();
 		return userFoundByIdOptional.get();
 	}
-	
+
 
 	@Override
 	public User updateUser(User user) throws UserNotFoundException {
@@ -52,10 +53,10 @@ public class UserServicesImpl implements UserServices {
 			throw new UserNotFoundException();
 		else 
 			return this.userRepository.save(user);
-		
+
 	}
-	
-	
+
+
 
 	@Override
 	public User addVHStoUser(int id, String vhs) throws UserNotFoundException {
@@ -65,12 +66,12 @@ public class UserServicesImpl implements UserServices {
 		}else {
 			User user = userFoundByIdOptional.get();
 			user.setRentedVHS(vhs);
-		return this.userRepository.save(user);
+			return this.userRepository.save(user);
 		}
 	}
 
 	@Override
-	public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundExeption {
+	public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundException {
 		User user ;
 		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
 		if (!userFoundByIdOptional.isPresent()) {
@@ -80,11 +81,11 @@ public class UserServicesImpl implements UserServices {
 			if (user.getRentedVHS().equals(vhs)) {
 				user.setRentedVHS(null);				
 			}else {
-				throw new VHSNotFoundExeption();
+				throw new VHSNotFoundException();
 			}
-			
+
 		}
-			
+
 		return this.userRepository.save(user);
 	}
 
@@ -98,15 +99,31 @@ public class UserServicesImpl implements UserServices {
 			this.userRepository.delete(userFoundByIdOptional.get());
 			status = true;
 		}
-	
+
 		return status;
 	}
 
+	@Override 
+	public Boolean login(int id,String password) throws UserNotFoundException, passwordDoesNotMatchException {
+		User user;
+		boolean status = false;
+		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
 
-	
-	
+		if (!userFoundByIdOptional.isPresent()) {
+			throw new UserNotFoundException();
+		}else {
+			user = userFoundByIdOptional.get();
+			if(user.getId() == id && user.getPassword().equals(password)) {
+				System.out.println("successfull Login!");
+				status = true;
+			}else {
+				throw new passwordDoesNotMatchException();
+			}
+		}
+		return status;
+
+	}
 }
-
 
 
 

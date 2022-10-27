@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import com.qa.vhsRental.entity.User;
 import com.qa.vhsRental.exception.UserAlreadyExistsException;
 import com.qa.vhsRental.exception.UserNotFoundException;
-import com.qa.vhsRental.exception.VHSNotFoundExeption;
+import com.qa.vhsRental.exception.VHSNotFoundException;
+import com.qa.vhsRental.exception.passwordDoesNotMatchException;
 @Service
 public interface UserServices {
 	
@@ -17,11 +18,12 @@ public User getUserByID(int id) throws UserNotFoundException;
 public User updateUser(User user) throws UserNotFoundException;
 public User addVHStoUser(int id, String vhs) throws UserNotFoundException;
 public Boolean deleteUser(int id) throws UserNotFoundException;
-public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundExeption;
+public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundException;
+public Boolean login(int id, String password) throws UserNotFoundException, passwordDoesNotMatchException;
 
 
 
 }
 
-
+	
 
