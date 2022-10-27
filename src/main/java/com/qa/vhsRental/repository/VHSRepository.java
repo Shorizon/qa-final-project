@@ -9,8 +9,8 @@ import com.qa.vhsRental.entity.VHS;
 
 public interface VHSRepository extends JpaRepository<VHS, Integer> {
 
-	
-//	public List<VHS> findByAuthor(String author);
+	@Query("select v from VHS v where v.author = :author")
+	public List<VHS> findByAuthor(String author);
 	
 
 }

@@ -37,7 +37,7 @@ public class VHSServiceImpl implements VHSService {
 	@Override
 	public VHS getVHSByID(int id) throws VHSNotFoundException {
 		Optional<VHS> vhsFoundByIdOptional = this.vhsRepository.findById(id);
-		if (vhsFoundByIdOptional.isPresent())
+		if (!vhsFoundByIdOptional.isPresent())
 			throw new VHSNotFoundException();
 		
 		return vhsFoundByIdOptional.get();
@@ -87,11 +87,11 @@ public class VHSServiceImpl implements VHSService {
 		return rentedVHS;
 	}
 	
-//	@Override
-//	public List<VHS> getVHSByAuthor(String author) {
-//		List<VHS> listVHSByAuthor = this.vhsRepository.findByAuthor(author);
-//		return listVHSByAuthor;
-//	}
+	@Override
+	public List<VHS> getVHSByAuthor(String author) {
+		List<VHS> listVHSByAuthor = this.vhsRepository.findByAuthor(author);
+		return listVHSByAuthor;
+	}
 	
 	
 	
