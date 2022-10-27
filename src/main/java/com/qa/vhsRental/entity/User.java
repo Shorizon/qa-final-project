@@ -35,24 +35,25 @@ public class User {
 	
 
 	@NotNull
+	@Pattern(regexp = "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$", message = "must contain a capital letter,a symbol, a lower case letter and a number")
 	@Size(min = 6, max = 20, message = "pass must be between 6 and 20 characters long !!")
 	@Column(name = "user_pass")
 	private String password;
 
 	@NotNull
 	@Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long !!")
-	@Pattern(regexp = "^[A-Za-z]*", message = "Invalid name - must only contain alphabetical characters !!")
+	@Pattern(regexp = "^[A-Za-z ]*", message = "Invalid name - must only contain alphabetical characters !!")
 	@Column(name = "user_name")
 	private String name;
 
 	@NotNull
 	@Size(min = 2, max = 20, message = "surname must be between 2 and 20 characters long !!")
-	@Pattern(regexp = "^[A-Za-z]*", message = "Invalid surname - must only contain alphabetical characters !!")
+	@Pattern(regexp = "^[A-Za-z ]*", message = "Invalid surname - must only contain alphabetical characters !!")
 	@Column(name = "user_surname")
 	private String surname;
 	
 	@NotNull
-	@Pattern(regexp = "^[A-Za-z0-9]*", message = "Invalid adr - must only contain alphanumerical characters !!")
+	@Pattern(regexp = "^[A-Za-z0-9 ]*", message = "Invalid adr - must only contain alphanumerical characters !!")
 	@Column(name = "user_address")
 	private String address;
 	
