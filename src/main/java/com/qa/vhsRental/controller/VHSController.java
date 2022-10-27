@@ -154,12 +154,42 @@ public class VHSController {
 		
 	}
 	
+	@GetMapping("/vhs/author/{author}/name/{name}")
+	public ResponseEntity<?> getByAuthorAndName(@PathVariable("name") String name,@PathVariable("author") String author){
+		
+		try {
+			VHS listVHS = this.vhsService.getVHSByAuthorAndName(name,author);
+			responseEntity = new ResponseEntity<>(listVHS, HttpStatus.OK);
+		}catch(Exception e) {
+			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+		
+		
+		return responseEntity;
+		
+	}
 	
 	@GetMapping("/vhs/author/{author}")
 	public ResponseEntity<?> getByAuthor(@PathVariable("author") String author ){
 		
 		try {
 			List<VHS> listVHS = this.vhsService.getVHSByAuthor(author);
+			responseEntity = new ResponseEntity<>(listVHS, HttpStatus.OK);
+		}catch(Exception e) {
+			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+		
+		
+		return responseEntity;
+		
+	}
+	@GetMapping("/vhs/name/{name}")
+	public ResponseEntity<?> getByName(@PathVariable("name") String name ){
+		
+		try {
+			VHS listVHS = this.vhsService.getVHSByName(name);
 			responseEntity = new ResponseEntity<>(listVHS, HttpStatus.OK);
 		}catch(Exception e) {
 			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);

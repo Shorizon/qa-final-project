@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.qa.vhsRental.dto.UserDto;
 import com.qa.vhsRental.entity.User;
+import com.qa.vhsRental.entity.VHS;
 import com.qa.vhsRental.exception.UserAlreadyExistsException;
 import com.qa.vhsRental.exception.UserNotFoundException;
 import com.qa.vhsRental.exception.VHSAlreadyExistsException;
@@ -66,37 +67,33 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User addVHStoUser(int id, String vhs) throws UserNotFoundException, VHSAlreadyExistsException {
+	public User addVHStoUser(int id, VHS vhs) throws UserNotFoundException, VHSAlreadyExistsException {
 		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
 		if (!userFoundByIdOptional.isPresent()) {
 			throw new UserNotFoundException();
 		}else {
 			User user = userFoundByIdOptional.get();
-			if (user.getRentedVHS().equals(vhs))
+			if (user.getRentedVHS().contains(vhs))
 				throw new VHSAlreadyExistsException();
 				else {
-					user.setRentedVHS(vhs);
+					vhs.setIsRented(true);
+					user.getRentedVHS().add(vhs);
+					
 					return this.userRepository.save(user);
 				}
 		}
 	}
 
 	@Override
-	public User removeVHSfromUser(int id, String vhs) throws UserNotFoundException, VHSNotFoundException {
+	public User removeVHSfromUser(int id) throws UserNotFoundException {
 		User user ;
 		Optional<User> userFoundByIdOptional = this.userRepository.findById(id);
 		if (!userFoundByIdOptional.isPresent()) {
 			throw new UserNotFoundException();
 		}else {
 			user = userFoundByIdOptional.get();
-			if (user.getRentedVHS().equals(vhs)) {
-				user.setRentedVHS(null);				
-			}else {
-				throw new VHSNotFoundException();
-			}
-
+				user.setRentedVHS(null);			
 		}
-
 		return this.userRepository.save(user);
 	}
 
@@ -169,10 +166,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findUserByAddress(String address) {
-		return this.userRepository.findAll().stream()
-			    .filter((user) -> 
-			    user.getAddress().equals(address))
-			    .collect(Collectors.toList());
+		return this.userRepository.findUserByAddress(address);
 	}
 
 

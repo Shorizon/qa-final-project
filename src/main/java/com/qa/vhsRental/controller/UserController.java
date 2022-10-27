@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.vhsRental.dto.UserDto;
 import com.qa.vhsRental.entity.User;
+import com.qa.vhsRental.entity.VHS;
 import com.qa.vhsRental.exception.UserAlreadyExistsException;
 import com.qa.vhsRental.exception.UserNotFoundException;
 import com.qa.vhsRental.exception.VHSAlreadyExistsException;
@@ -47,13 +48,13 @@ public class UserController {
 			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseEntity;
-		
+
 	}
-	
+
 	@PostMapping("/login/{id}/{pass}")
 	public ResponseEntity<?> login(@PathVariable("id") int id,@PathVariable("pass") String pass) throws passwordDoesNotMatchException, UserNotFoundException{
 		try {
-			
+
 			UserDto userLogin = this.userService.login(id, pass);
 			responseEntity = new ResponseEntity<>(userLogin,HttpStatus.OK);
 		}catch(passwordDoesNotMatchException e) {
@@ -69,7 +70,7 @@ public class UserController {
 
 	@GetMapping("/users")
 	public ResponseEntity<?> getAllUsers(){
-			
+
 		try {
 			List<User> userList = this.userService.getAllUsers();
 			responseEntity = new ResponseEntity<>(userList,HttpStatus.OK);
@@ -115,7 +116,7 @@ public class UserController {
 
 		return responseEntity;
 	}
-	
+
 	@GetMapping("/users/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable("id") int id) throws UserNotFoundException{
 
@@ -143,7 +144,7 @@ public class UserController {
 			throw e;
 		}catch(Exception e) {
 			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
 		return responseEntity;
 	}
@@ -165,8 +166,8 @@ public class UserController {
 	}
 
 
-	@PutMapping("/users/id/{id}/vhs/{vhs}")
-	public ResponseEntity<?> rentVHS(@PathVariable("id") int id,@PathVariable("vhs") String vhs) throws UserNotFoundException, VHSAlreadyExistsException{
+	@PutMapping("/users/id/{id}/vhs")
+	public ResponseEntity<?> rentVHS(@Valid @PathVariable("id") int id,@RequestBody VHS vhs) throws UserNotFoundException, VHSAlreadyExistsException{
 
 		try {
 			User userFound = this.userService.addVHStoUser(id,vhs);
@@ -184,11 +185,11 @@ public class UserController {
 
 
 
-	@DeleteMapping("/users/id/{id}/vhs/{vhs}")
-	public ResponseEntity<?> removeUserVHS(@PathVariable("id") int id,@PathVariable("vhs") String vhs) throws UserNotFoundException{
+	@DeleteMapping("/users/id/{id}/vhs")
+	public ResponseEntity<?> removeUserVHS(@Valid @PathVariable("id") int id) throws UserNotFoundException{
 
 		try {
-			User userFound = this.userService.removeVHSfromUser(id,vhs);
+			User userFound = this.userService.removeVHSfromUser(id);
 			responseEntity = new ResponseEntity<>(userFound, HttpStatus.OK);
 		}catch(UserNotFoundException e) {
 			throw e;
@@ -213,13 +214,24 @@ public class UserController {
 		}
 		return responseEntity;
 	}
+	@GetMapping("/users/name/{name}/{surname}")
+	public ResponseEntity<?> findUserByFullName(@PathVariable("name") String name,@PathVariable("surname") String surname) throws VHSNotFoundException{
+
+		try {
+			List<User> userFound = this.userService.findUserByNameAndSurname(name,surname);
+			responseEntity = new ResponseEntity<>(userFound, HttpStatus.OK);
+		}catch(Exception e) {
+			responseEntity = new ResponseEntity<>("Some internal error has occured..", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+		return responseEntity;
+	}
 
 
 	@GetMapping("/users/short_detail")
 	public ResponseEntity<?> getShortDetailsUsers(){	
-
+		
 		try {
-
 			List<UserDto> userDtoList = this.userService.userShortDetails();
 			responseEntity = new ResponseEntity<>(userDtoList, HttpStatus.OK);
 
@@ -230,7 +242,5 @@ public class UserController {
 
 		return responseEntity;
 	}
-
-
 
 }
