@@ -1,4 +1,4 @@
-package qa.com.vhsRental.Service;
+package com.qa.vhsRental.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.qa.vhsRental.entity.VHS;
 import com.qa.vhsRental.exception.VHSAlreadyExistsException;
 import com.qa.vhsRental.repository.VHSRepository;
-import com.qa.vhsRental.service.VHSServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class VHSServiceTest {

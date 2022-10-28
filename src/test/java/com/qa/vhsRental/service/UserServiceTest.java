@@ -1,4 +1,4 @@
-package qa.com.vhsRental.Service;
+package com.qa.vhsRental.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.qa.vhsRental.entity.User;
 import com.qa.vhsRental.exception.UserAlreadyExistsException;
 import com.qa.vhsRental.repository.UserRepository;
-import com.qa.vhsRental.service.UserServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {

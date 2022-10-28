@@ -31,7 +31,7 @@ public class VhsRentalSystemApplication {
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
           .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("com.qa.vhsRental.controller"))              
+          .apis(RequestHandlerSelectors.basePackage("com.qa.vhsrental.controller"))              
           .paths(PathSelectors.any())                          
           .build();                                           
     }
