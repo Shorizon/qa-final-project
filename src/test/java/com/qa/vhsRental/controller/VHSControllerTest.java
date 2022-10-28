@@ -1,5 +1,4 @@
-package qa.com.vhsRental.Controller;
-
+package com.qa.vhsRental.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -27,73 +26,78 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qa.vhsRental.controller.UserController;
-import com.qa.vhsRental.entity.User;
-import com.qa.vhsRental.service.UserServiceImpl;
+import com.qa.vhsRental.entity.VHS;
+import com.qa.vhsRental.service.VHSServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
-	
+public class VHSControllerTest {
+
+
 	@Mock
-	private UserServiceImpl userService;
+	private VHSServiceImpl vhsService;
 	
 	@Autowired
 	@InjectMocks
-	private UserController userController;
+	private VHSController vhsController;
 	
-
+	
 	@Autowired
 	MockMvc mockMvc;
 	
-
-	User test1;
-	User test2;
-	User test3;	
+	VHS test1;
+	VHS test2;
+	VHS test3;
 	
-	List<User> userList;
+	List<VHS> vhsList;
 	
 	@BeforeEach
 	public void setUp() {
+
 		
-	
 		
-		test1 = new User(1, "@Se133dd", "Mario", "Rossi", "On My Way 121",null);
-		test2 = new User(2, "@Se133dd", "Marioa", "Rossia", "On My Way 122",null);
-		test3 = new User(3, "@Se133dd", "Mariob", "Rossib", "On My Way 123",null);
-		userList = Arrays.asList(test1,test2,test3);
+		test1 = new VHS(1, "Godsacio", "Scream", true);
+		test2 = new VHS(2, "Gosdsdcio2", "Scream2", true);
+		test3 = new VHS(3, "Gocdsdsio3", "Scream", false);
+		vhsList = Arrays.asList(test1,test2,test3);
 		
-		mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(vhsController).build();
 	}
 	
 	@AfterEach
 	public void tearDown() {
 		test1 = test2 = test3 = null;
-		userList = null;
+		vhsList = null;
 	}
 	
 	@Test
-	@DisplayName("save-user-test")
-	public void given_User_To_Save_User_Should_Return_User_As_JSON_With_Status_Create() throws Exception{
-		when(userService.signup(any())).thenReturn(test1);
-		mockMvc.perform(post("/api/v1/signup")
+	@DisplayName("save-vhs-test")
+	public void given_vhs_To_Save_vhs_Should_Return_vhs_As_JSON_With_Status_Create() throws Exception{
+		when(vhsService.addVHS(any())).thenReturn(test1);
+		mockMvc.perform(post("/api/v1/vhs")
 		        .contentType(MediaType.APPLICATION_JSON)
 		        .content(asJsonString(test1)))
         		.andExpect(status().isCreated())
-        		.andExpect(jsonPath("$.name").value("Mario"));
+        		.andExpect(jsonPath("$.name").value("Godsacio"));
 				
 	}
-
+	
 	
 	@Test
-	@DisplayName("get-user-test")
-	public void given_AllUsers_Should_Return_List() throws Exception {
-		when(userService.getAllUsers()).thenReturn(userList);
-		mockMvc.perform(get("/api/v1/users")
+	@DisplayName("get-foods-test")
+	public void given_AllFoods_Should_Return_List() throws Exception {
+		when(vhsService.getAllVHS()).thenReturn(vhsList);
+		mockMvc.perform(get("/api/v1/vhs")
 				        .accept(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$[1].address").value("On My Way 122"));
+				.andExpect(jsonPath("$[1].author").value("Scream2"));
 	}
+	
+
+
+
+
+
 
 
 public static String asJsonString(Object obj) {
@@ -111,4 +115,5 @@ public static String asJsonString(Object obj) {
     }
     return jsonStr;
 }
+
 }

@@ -1,4 +1,4 @@
-package com.qa.vhsRental.Repository;
+package com.qa.vhsRental.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
