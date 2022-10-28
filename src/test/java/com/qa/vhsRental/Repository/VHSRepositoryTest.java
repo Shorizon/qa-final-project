@@ -67,6 +67,7 @@ public class VHSRepositoryTest {
 		vhsRepository.save(test1);
 		assertThat(vhsRepository.findById(321321).isEmpty());
 	}
+	
 	@Test
 	@DisplayName("get-food-list-test")
 	public void given_AllFood_Return_Food_List() {

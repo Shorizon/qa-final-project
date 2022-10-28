@@ -28,7 +28,7 @@ public interface UserService {
  	public List<UserDto> userShortDetails();
 	public UserDto login(int id, String password) throws UserNotFoundException, passwordDoesNotMatchException;
 
-	public UserDto signup(User user) throws UserAlreadyExistsException;
+	public User signup(User user) throws UserAlreadyExistsException;
 	public User addVHStoUser(int id, VHS vhs) throws UserNotFoundException, VHSAlreadyExistsException;
 
 	public User removeVHSfromUser(int id) throws UserNotFoundException;

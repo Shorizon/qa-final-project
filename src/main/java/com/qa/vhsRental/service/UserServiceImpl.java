@@ -130,14 +130,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override 
-	public UserDto signup(User user) throws UserAlreadyExistsException  {
+	public User signup(User user) throws UserAlreadyExistsException  {
 		Optional<User> userFoundByIdOptional = this.userRepository.findById(user.getId());
 		if(userFoundByIdOptional.isPresent())
 			throw new UserAlreadyExistsException("ID already taken");
 		else {
 			this.userRepository.save(user);
 		}
-		return mapToUserDto(user);
+		return user;
 
 	}
 
