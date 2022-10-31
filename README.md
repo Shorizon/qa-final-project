@@ -29,12 +29,19 @@ This application has been built using the following tech stack:
 Steps
 
 1.Add Users through the corresponding end point by compiling a user.json and sending it with post request "localhost:8083/api/v1/users/"
+
 2.Request a GET request using the corresponding end point to check all users in the database "localhost:8083/api/v1/users/"
+
 3.Fetch data from a single user by using a GET request "localhost:8083/api/v1/users/{id}"
+
 4.Add VHS to the database by sending a VHS.JSON and by running a POST request "localhost:8083/api/v1/vhs/"
+
 5.to add VHS to the user directly run a POST request "localhost:8083/api/v1/users/{id}/vhs" with the VHS.JSON
+
 6.To return a list of all the rented VHS run a GET request"localhost:8083/api/v1/vhs/rented_list"
+
 7.To remove a VHS from a user run a DELETE request with "localhost:8083/api/v1/users/{id}/vhs"]
+
 8.If any other operation is required follow the endpoint description in "list of endpoint" images.
 
 
