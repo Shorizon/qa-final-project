@@ -16,15 +16,25 @@ Create webservices using SpringBoot with the following mentioned components:
 3.components to edit and display data from the database.
 
 
+
+
 Tech Stack
 
 This application has been built using the following tech stack:
 
 1.Java SE 17
+
 2.Maven 3.8.6
+
 3.SpringBoot 2.7.5
+
 4.MySQL 8.0.31 
+
 5.Swagger-ui 3.0.0
+
+
+
+
 
 Steps
 
@@ -43,6 +53,8 @@ Steps
 7.To remove a VHS from a user run a DELETE request with "localhost:8083/api/v1/users/{id}/vhs"]
 
 8.If any other operation is required follow the endpoint description in "list of endpoint" images.
+
+
 
 
 End Points
